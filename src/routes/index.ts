@@ -1,7 +1,7 @@
 
 import {Router} from 'express'
 import SignUpRouter from "./access/index.access"
-import checkAuth from '../utils/checkAuth'
+import {apiKey, permission} from '../utils/checkAuth'
 
 class MainRouter {
     private static _instance: Router;
@@ -21,8 +21,8 @@ class MainRouter {
         router.get("/", (req,res,next)=>{
             res.status(200).send("OK")
         })
-        router.use(checkAuth.apiKey)
-        router.use(checkAuth.permission('0000'))
+        router.use(apiKey)
+        router.use(permission('0000'))
         router.use("/", SignUpRouter.getRouter())
     }
   }

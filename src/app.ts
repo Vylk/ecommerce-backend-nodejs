@@ -1,9 +1,10 @@
-import express, { Application } from "express";
+import express, { Application, NextFunction,Request,Response } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
 import MongoDB from "./dbs/databases";
 import { checkOverload } from "./helpers/check_connect";
+import { CustomError } from "./interfaces/CustomError";
 import dotenv from "dotenv";
 dotenv.config();
 import config from "./configs/config";
@@ -26,6 +27,19 @@ class App {
   }
   private routes(): void {
     this.app.use("/v1/api", MainRouter.getInstance());
+    this.app.use((req: Request, res: Response, next: NextFunction)=>{
+      const error = new CustomError('Not Found',404)
+      next(error)
+    })
+    this.app.use((error: CustomError, req: Request, res: Response, next: NextFunction)=>{
+      const statusCode = error.status || 500
+      res.status(statusCode).json({
+        status: 'error',
+        code: statusCode,
+        message: error.message || 'Internal Server error'
+      })
+
+    })
   }
   private async connectDatabase(): Promise<void> {
     try {
