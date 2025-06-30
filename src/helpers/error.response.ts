@@ -1,12 +1,5 @@
-const StatusCode = {
-    FORBIDDEN: 403,
-    CONFLICT: 409
-}
+import {statusCode as StatusCode, reasonPhrases as ResponseStatusCode} from '../utils/httpStatusCode'
 
-const ResponseStatusCode = {
-    FORBIDDEN: 'Bad request error',
-    CONFLICT: 'Conflict error'
-}
 
 class ErrorResponse extends Error {
     public status: number
@@ -27,8 +20,20 @@ class BadRequestError extends ErrorResponse{
         super(message,status)
     }
 }
+class AuthFailureError extends ErrorResponse {
+    constructor (message = ResponseStatusCode.UNAUTHORIZED, status = StatusCode.UNAUTHORIZED){
+        super(message, status)
+    }
+}
+class NotFoundError extends ErrorResponse {
+    constructor (message = ResponseStatusCode.NOT_FOUND, status = StatusCode.NOT_FOUND){
+        super(message, status)
+    }
+}
 
 export {
     ConflictRequestError,
-    BadRequestError
+    BadRequestError,
+    AuthFailureError,
+    NotFoundError
 }

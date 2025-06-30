@@ -1,5 +1,6 @@
 declare namespace Express{
     interface Request{
-        objKey? : any
+        objKey? : any,
+        keyStore? : any
     }
 }

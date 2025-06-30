@@ -1,6 +1,6 @@
 
 import {Router} from 'express'
-import SignUpRouter from "./access/index.access"
+import AccessRouter from "./access/index.access"
 import {apiKey, permission} from '../utils/checkAuth'
 
 class MainRouter {
@@ -23,7 +23,7 @@ class MainRouter {
         })
         router.use(apiKey)
         router.use(permission('0000'))
-        router.use("/", SignUpRouter.getRouter())
+        router.use("/", AccessRouter.getRouter())
     }
   }
 

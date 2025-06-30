@@ -1,20 +1,11 @@
 import {Response} from 'express'
-
-const StatusCode = {
-    OK: 200,
-    CREATE: 201
-}
-
-const ReasonStatusCode = {
-    OK: 'Success',
-    CREATE: 'Created'
-}
+import {statusCode as StatusCode, reasonPhrases as ResponseStatusCode} from '../utils/httpStatusCode'
 
 class SuccessResponse {
     public messgae: string
     public statuscode: number
     public metadata : any
-    constructor({message = '', statusCode = StatusCode.OK, reasonStatusCode = ReasonStatusCode.OK, metadata = {} }: {message?: string, statusCode: number, reasonStatusCode?: string, metadata: any}){
+    constructor({message = '', statusCode = StatusCode.OK, reasonStatusCode = ResponseStatusCode.OK, metadata = {} }: {message?: string, statusCode: number, reasonStatusCode?: string, metadata: any}){
         this.messgae = !message ? reasonStatusCode : message
         this.statuscode = statusCode
         this.metadata = metadata
@@ -31,11 +22,12 @@ class OK extends SuccessResponse {
 
 class Created extends SuccessResponse{
     public options: any
-    constructor({options = {},message, statusCode = StatusCode.CREATE, reasonStatusCode=ReasonStatusCode.CREATE, metadata = {}} : {options?: any,message: string, statusCode?: number, reasonStatusCode?: string, metadata : any}){
+    constructor({options = {},message, statusCode = StatusCode.CREATED, reasonStatusCode=ResponseStatusCode.CREATED, metadata = {}} : {options?: any,message: string, statusCode?: number, reasonStatusCode?: string, metadata : any}){
         super({message, statusCode,metadata})
         this.options = !options ? {} : options
     }
 }
+
 
 export {
     OK,
